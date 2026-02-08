@@ -19,7 +19,7 @@ import math
 import re
 
 # --- CONFIGURATION ---
-TOKEN = 'YOUR_BOT_TOKEN_HERE'  # Replace with your bot token
+TOKEN = '8542116838:AAFEqnuQKOz48nuNKAGnFrdnJSYerybabxQ'  # Replace with your bot token
 bot = telebot.TeleBot(TOKEN)
 START_TIME = datetime.datetime.now()
 VERSION = "12.0.0 (Omnipotent Edition)"
