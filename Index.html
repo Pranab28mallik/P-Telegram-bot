@@ -1,235 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRINCE EMPIRE | OMNIPOTENT TERMINAL</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background-color: #000;
-            color: #00ff41;
-            font-family: 'Fira Code', monospace;
-            overflow-x: hidden;
-            margin: 0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Late Night Legends – FINAL SYSTEM</title>
 
-        .scanline {
-            width: 100%;
-            height: 100px;
-            z-index: 10;
-            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 255, 65, 0.1) 50%, rgba(0, 0, 0, 0) 100%);
-            opacity: 0.1;
-            position: fixed;
-            bottom: 100%;
-            animation: scanline 8s linear infinite;
-            pointer-events: none;
-        }
+<style>
+/* ================= GLOBAL ================= */
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#000;
+  color:#00ff66;
+  font-family:monospace;
+  overflow:hidden;
+}
 
-        @keyframes scanline {
-            0% { bottom: 100%; }
-            100% { bottom: -100px; }
-        }
+/* ================= MATRIX CANVAS ================= */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:-5;
+}
 
-        .matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: linear-gradient(rgba(0, 255, 65, 0.05) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(0, 255, 65, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
-            pointer-events: none;
-            z-index: -1;
-        }
+/* ================= SCANLINES ================= */
+.scanline{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 50%,
+    rgba(0,255,100,0.04) 50%
+  );
+  background-size:100% 4px;
+  z-index:-4;
+}
 
-        .terminal-glow {
-            text-shadow: 0 0 10px rgba(0, 255, 65, 0.7);
-        }
+/* ================= CONTAINER ================= */
+.container{
+  max-width:600px;
+  margin:14px auto;
+  padding:16px;
+  border:2px solid #00ff66;
+  box-shadow:0 0 35px #00ff66;
+  background:rgba(0,0,0,.85);
+  position:relative;
+}
 
-        .border-empire {
-            border: 1px solid rgba(0, 255, 65, 0.3);
-        }
+/* ================= TITLE ================= */
+h1{
+  text-align:center;
+  text-shadow:0 0 18px #00ff66;
+  margin:6px 0 10px;
+  font-size:22px;
+}
 
-        .btn-empire {
-            background: rgba(0, 255, 65, 0.1);
-            border: 1px solid #00ff41;
-            color: #00ff41;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
+/* ================= ADMIN EYE ================= */
+.eye-wrap{
+  display:flex;
+  justify-content:center;
+  margin-bottom:10px;
+}
+.eye{
+  width:42px;
+  height:42px;
+  border:2px solid #00ff66;
+  border-radius:50%;
+  position:relative;
+  box-shadow:0 0 15px #00ff66;
+}
+.pupil{
+  width:12px;
+  height:12px;
+  background:#00ff66;
+  border-radius:50%;
+  position:absolute;
+  top:14px;
+  left:14px;
+  transition:0.05s;
+}
 
-        .btn-empire:hover {
-            background: #00ff41;
-            color: #000;
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
-        }
+/* ================= TERMINAL ================= */
+.terminal{
+  border-top:1px solid #00ff66;
+  margin-top:8px;
+  padding-top:8px;
+  height:320px;
+  overflow:hidden;
+  font-size:13px;
+  line-height:1.6;
+  white-space:pre-wrap;
+}
+.cursor::after{
+  content:"▌";
+  animation:blink 1s infinite;
+}
+@keyframes blink{50%{opacity:0}}
 
-        .card-empire {
-            background: rgba(0, 10, 0, 0.8);
-            backdrop-filter: blur(5px);
-        }
+/* ================= FOOTER ================= */
+.footer{
+  text-align:center;
+  margin-top:12px;
+  font-size:12px;
+  opacity:.9;
+}
 
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #000;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #00ff41;
-        }
-    </style>
+/* ================= MOBILE ================= */
+@media(max-width:600px){
+  h1{font-size:20px}
+  .terminal{font-size:12px}
+}
+</style>
 </head>
-<body class="p-4 md:p-12">
-    <div class="scanline"></div>
-    <div class="matrix-bg"></div>
 
-    <header class="max-w-6xl mx-auto mb-12 border-b border-empire pb-8 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div class="flex items-center gap-4">
-            <div class="w-16 h-16 border-2 border-empire rounded-full flex items-center justify-center animate-pulse shadow-[0_0_15px_rgba(0,255,65,0.4)]">
-                <span class="text-2xl font-black">P</span>
-            </div>
-            <div>
-                <h1 class="text-4xl font-black tracking-tighter terminal-glow">PRINCE_EMPIRE_OS</h1>
-                <p class="text-[10px] tracking-[0.5em] opacity-60 uppercase mt-1">Sovereign Automation Infrastructure</p>
-            </div>
-        </div>
-        <div class="flex gap-4">
-            <div class="text-right">
-                <p class="text-[10px] opacity-40 uppercase">System Status</p>
-                <p class="text-sm font-bold text-green-400">OPERATIONAL // v12.0</p>
-            </div>
-        </div>
-    </header>
+<body>
 
-    <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Left: Deployment -->
-        <section class="lg:col-span-1 space-y-6">
-            <div class="card-empire border-empire p-6 rounded-lg">
-                <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
-                    <span>⚡</span> DEPLOY_CORE
-                </h2>
-                <p class="text-xs opacity-60 mb-6">Run this command in Termux to initialize the Prince Empire Mega-Bot.</p>
-                
-                <div class="bg-black/50 p-4 rounded border border-empire/20 font-mono text-[10px] mb-4 overflow-x-auto relative group">
-                    <pre id="deploy-cmd">pkg update && pkg upgrade -y
-pkg install python -y
-pip install pyTelegramBotAPI
-wget https://raw.githubusercontent.com/Prince/Empire/main/bot.py
-python bot.py</pre>
-                    <button onclick="copyCmd()" class="absolute top-2 right-2 p-1 btn-empire text-[8px] px-2 rounded">COPY</button>
-                </div>
-                
-                <div class="space-y-3">
-                    <div class="flex justify-between text-[10px]">
-                        <span class="opacity-50 uppercase">Architect</span>
-                        <span class="font-bold">Prince</span>
-                    </div>
-                    <div class="flex justify-between text-[10px]">
-                        <span class="opacity-50 uppercase">Language</span>
-                        <span class="font-bold">Python 3.x</span>
-                    </div>
-                    <div class="flex justify-between text-[10px]">
-                        <span class="opacity-50 uppercase">Bot Type</span>
-                        <span class="font-bold">Mega-Enterprise</span>
-                    </div>
-                </div>
-            </div>
+<canvas id="matrix"></canvas>
+<div class="scanline"></div>
 
-            <div class="card-empire border-empire p-6 rounded-lg">
-                <h3 class="text-xs font-bold mb-4 opacity-40 tracking-widest uppercase">Quick Actions</h3>
-                <div class="grid grid-cols-2 gap-2">
-                    <button class="btn-empire py-2 text-[10px] uppercase font-bold">Docs</button>
-                    <button class="btn-empire py-2 text-[10px] uppercase font-bold">Support</button>
-                    <button class="btn-empire py-2 text-[10px] uppercase font-bold">Updates</button>
-                    <button class="btn-empire py-2 text-[10px] uppercase font-bold">API</button>
-                </div>
-            </div>
-        </section>
+<!-- BOOT SOUND -->
+<audio autoplay>
+  <source src="https://assets.mixkit.co/sfx/preview/mixkit-robotic-interface-2568.mp3" type="audio/mpeg">
+</audio>
 
-        <!-- Right: Features Grid -->
-        <section class="lg:col-span-2 card-empire border-empire p-8 rounded-lg">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-xl font-bold terminal-glow">EMPIRE_MODULES (300+)</h2>
-                <span class="text-[10px] bg-green-500/10 px-3 py-1 border border-empire text-green-400">ENCRYPTED</span>
-            </div>
+<div class="container">
+  <h1>L𝐀𝐓𝐄 N𝐈𝐆𝐇𝐓 L𝐄𝐆𝐄𝐍𝐃𝐒</h1>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="p-4 border border-empire/10 hover:bg-green-500/5 transition-all">
-                    <h3 class="text-sm font-bold mb-1">Economy Engine</h3>
-                    <p class="text-[10px] opacity-50">Virtual bank, global market, and asset trading systems.</p>
-                </div>
-                <div class="p-4 border border-empire/10 hover:bg-green-500/5 transition-all">
-                    <h3 class="text-sm font-bold mb-1">Overlord Suite</h3>
-                    <p class="text-[10px] opacity-50">Unmatched group management and moderation controls.</p>
-                </div>
-                <div class="p-4 border border-empire/10 hover:bg-green-500/5 transition-all">
-                    <h3 class="text-sm font-bold mb-1">Casino Matrix</h3>
-                    <p class="text-[10px] opacity-50">High-stakes gambling: Dice, Slots, Blackjack, Flip.</p>
-                </div>
-                <div class="p-4 border border-empire/10 hover:bg-green-500/5 transition-all">
-                    <h3 class="text-sm font-bold mb-1">Social Core</h3>
-                    <p class="text-[10px] opacity-50">Marriage OS, Reputation tracking, and User Dossiers.</p>
-                </div>
-                <div class="p-4 border border-empire/10 hover:bg-green-500/5 transition-all">
-                    <h3 class="text-sm font-bold mb-1">Security Lab</h3>
-                    <p class="text-[10px] opacity-50">SHA256, Base64 encoding, and safe math processing.</p>
-                </div>
-                <div class="p-4 border border-empire/10 hover:bg-green-500/5 transition-all">
-                    <h3 class="text-sm font-bold mb-1">Mission Log</h3>
-                    <p class="text-[10px] opacity-50">Persistent Todo management and task scheduling.</p>
-                </div>
-            </div>
+  <!-- ADMIN EYE -->
+  <div class="eye-wrap">
+    <div class="eye">
+      <div class="pupil" id="pupil"></div>
+    </div>
+  </div>
 
-            <div class="mt-8 pt-8 border-t border-empire/10">
-                <div class="bg-black p-4 text-[9px] font-mono text-green-900 leading-relaxed overflow-hidden h-32 relative">
-                    <div id="log-content">
-                        [SYS] Initializing Prince Empire Protocol...<br>
-                        [SYS] Loading 312 sub-modules...<br>
-                        [SYS] Establishing secure connection to Telegram API...<br>
-                        [SYS] User 'Prince' authenticated as Architect.<br>
-                        [SYS] Enterprise mode enabled.<br>
-                        [SYS] Monitoring global transactions...<br>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+  <!-- TERMINAL -->
+  <div id="terminal" class="terminal cursor"></div>
 
-    <footer class="max-w-6xl mx-auto mt-12 py-8 border-t border-empire/20 text-center">
-        <p class="text-[9px] uppercase tracking-[0.5em] opacity-40">
-            PRINCE EMPIRE © 2024 // ALL RIGHTS RESERVED // OMNIPOTENT EDITION
-        </p>
-    </footer>
+  <div class="footer">
+    🟢 THIS IS NOT A GROUP — THIS IS A SYSTEM 👁️
+  </div>
+</div>
 
-    <script>
-        function copyCmd() {
-            const cmd = document.getElementById('deploy-cmd').innerText;
-            navigator.clipboard.writeText(cmd);
-            alert('Deployment script copied to clipboard!');
-        }
+<script>
+/* ========== MATRIX RAIN (CANVAS) ========== */
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
 
-        // Simple log animation
-        const log = document.getElementById('log-content');
-        const lines = [
-            "[LOG] Transaction verified: +$50,000 to user ID: 9821",
-            "[LOG] Global market index: 104.2 (+2.1%)",
-            "[LOG] Admin action: User 2210 restricted for spam",
-            "[LOG] New citizen joined: Alex_Empire",
-            "[LOG] Daily backup completed to Cloud Node 4",
-            "[LOG] Empire worth increased to $84.2B"
-        ];
-        
-        setInterval(() => {
-            const newLine = lines[Math.floor(Math.random() * lines.length)];
-            log.innerHTML += `[${new Date().toLocaleTimeString()}] ${newLine}<br>`;
-            if (log.innerHTML.split('<br>').length > 15) {
-                log.innerHTML = log.innerHTML.split('<br>').slice(1).join('<br>');
-            }
-        }, 3000);
-    </script>
+const letters="アカサタナハマヤラワ0123456789";
+const fontSize=14;
+const columns=canvas.width/fontSize;
+const drops=Array.from({length:columns}).fill(1);
+
+function drawMatrix(){
+  ctx.fillStyle="rgba(0,0,0,0.05)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#00ff66";
+  ctx.font=fontSize+"px monospace";
+  drops.forEach((y,i)=>{
+    const text=letters[Math.floor(Math.random()*letters.length)];
+    ctx.fillText(text,i*fontSize,y*fontSize);
+    drops[i]=(y*fontSize>canvas.height||Math.random()>0.975)?0:y+1;
+  });
+}
+setInterval(drawMatrix,33);
+
+/* ========== ADMIN EYE TRACKING ========== */
+const pupil=document.getElementById("pupil");
+document.addEventListener("mousemove",e=>{
+  const rect=pupil.parentElement.getBoundingClientRect();
+  const x=e.clientX-(rect.left+rect.width/2);
+  const y=e.clientY-(rect.top+rect.height/2);
+  const angle=Math.atan2(y,x);
+  pupil.style.left=14+Math.cos(angle)*8+"px";
+  pupil.style.top=14+Math.sin(angle)*8+"px";
+});
+
+/* ========== INFINITE TERMINAL RULES ========== */
+const terminal=document.getElementById("terminal");
+const rules=[
+"ACCESS GRANTED ✔",
+"ADMIN WATCHING 👁️",
+"Respect everyone.",
+"No abuse / no family.",
+"Admin decision FINAL.",
+"DM without permission = Kick.",
+"Spam / Ads = Ban.",
+"NSFW = Permanent Ban.",
+"Midnight ping = Mute.",
+"Fake profile = Block.",
+"Screenshot leak forbidden.",
+"Reply 'JI SIR' on admin notice.",
+"Late Night Legends is SYSTEM.",
+"Legends behave legendary.",
+"Admins see everything 👁️"
+];
+
+let line=0,char=0;
+function typeLoop(){
+  if(char<rules[line].length){
+    terminal.textContent+=rules[line][char++];
+  }else{
+    terminal.textContent+="\n";
+    line=(line+1)%rules.length;
+    char=0;
+    terminal.scrollTop=terminal.scrollHeight;
+  }
+}
+setInterval(typeLoop,40);
+
+/* ========== RESIZE ========== */
+window.onresize=()=>{
+  canvas.width=innerWidth;
+  canvas.height=innerHeight;
+};
+</script>
+
 </body>
 </html>
